@@ -1,0 +1,284 @@
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #3498db;
+    --success-color: #2ecc71;
+    --danger-color: #e74c3c;
+    --light-color: #ecf0f1;
+}
+
+body {
+    background-color: #f5f5f5;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.navbar {
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.navbar-brand i {
+    margin-right: 8px;
+}
+
+.card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card-header {
+    border-radius: 10px 10px 0 0 !important;
+}
+
+.btn {
+    border-radius: 5px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+#balance {
+    color: var(--primary-color);
+    font-weight: bold;
+}
+
+.list-group-item {
+    border: none;
+    margin-bottom: 5px;
+    border-radius: 5px !important;
+    transition: all 0.3s ease;
+}
+
+.list-group-item:hover {
+    background-color: var(--light-color);
+}
+
+.modal-content {
+    border-radius: 10px;
+}
+
+.form-control {
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+.form-control:focus {
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 0 0.2rem rgba(52, 152, 219, 0.25);
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.card {
+    animation: fadeIn 0.5s ease-in;
+}
+
+/* Estilos para el historial de transacciones */
+.transaction-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: white;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+.transaction-amount {
+    font-weight: bold;
+}
+
+.transaction-amount.positive {
+    color: var(--success-color);
+}
+
+.transaction-amount.negative {
+    color: var(--danger-color);
+}
+
+/* Estilos para tablets (768px - 1024px) */
+@media (max-width: 1024px) {
+    .container {
+        padding: 0 20px;
+    }
+
+    .card {
+        margin-bottom: 20px;
+    }
+
+    #balance {
+        font-size: 2.5rem;
+    }
+
+    .display-6 {
+        font-size: 2rem;
+    }
+
+    .table-responsive {
+        margin: 0 -20px;
+        padding: 0 20px;
+    }
+
+    .navbar-brand {
+        font-size: 1.3rem;
+    }
+
+    .nav-link {
+        padding: 0.5rem 1rem;
+    }
+
+    .btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+    }
+
+    .card-body {
+        padding: 1.25rem;
+    }
+
+    .transaction-item {
+        padding: 8px;
+        font-size: 0.9rem;
+    }
+}
+
+/* Estilos para móviles (hasta 767px) */
+@media (max-width: 767px) {
+    .container {
+        padding: 0 15px;
+    }
+
+    .navbar-brand {
+        font-size: 1.2rem;
+    }
+
+    .nav-link {
+        padding: 0.5rem;
+        font-size: 0.9rem;
+    }
+
+    .card {
+        margin-bottom: 15px;
+    }
+
+    #balance {
+        font-size: 2rem;
+    }
+
+    .display-6 {
+        font-size: 1.5rem;
+    }
+
+    .row {
+        margin: 0 -10px;
+    }
+
+    .col-md-6, .col-md-4 {
+        padding: 0 10px;
+    }
+
+    .btn {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.85rem;
+    }
+
+    .card-body {
+        padding: 1rem;
+    }
+
+    .transaction-item {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px;
+    }
+
+    .transaction-item > div {
+        margin-bottom: 5px;
+    }
+
+    .table th, .table td {
+        padding: 8px;
+        font-size: 0.85rem;
+    }
+
+    .modal-dialog {
+        margin: 0.5rem;
+    }
+
+    .modal-content {
+        padding: 1rem;
+    }
+
+    .form-control {
+        font-size: 0.9rem;
+        padding: 0.4rem 0.8rem;
+    }
+
+    /* Ajustes específicos para el dashboard de usuarios */
+    #allUsersDashboard .card-body {
+        padding: 1rem;
+    }
+
+    #allUsersDashboard .table-responsive {
+        margin: 0;
+        padding: 0;
+    }
+
+    #allUsersDashboard .row {
+        margin: 0;
+    }
+
+    #allUsersDashboard .col-md-4 {
+        margin-bottom: 10px;
+    }
+}
+
+/* Estilos para pantallas muy pequeñas (hasta 320px) */
+@media (max-width: 320px) {
+    .navbar-brand {
+        font-size: 1rem;
+    }
+
+    .nav-link {
+        padding: 0.4rem;
+        font-size: 0.8rem;
+    }
+
+    .card-header h4 {
+        font-size: 1.1rem;
+    }
+
+    .card-title {
+        font-size: 1rem;
+    }
+
+    #balance {
+        font-size: 1.8rem;
+    }
+
+    .display-6 {
+        font-size: 1.3rem;
+    }
+
+    .btn {
+        padding: 0.3rem 0.6rem;
+        font-size: 0.8rem;
+    }
+} 
