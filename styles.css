@@ -157,6 +157,10 @@ body {
         padding: 8px;
         font-size: 0.9rem;
     }
+
+    #currentDate {
+        font-size: 0.85rem;
+    }
 }
 
 /* Estilos para móviles (hasta 767px) */
@@ -248,6 +252,47 @@ body {
     #allUsersDashboard .col-md-4 {
         margin-bottom: 10px;
     }
+
+    #currentDate {
+        font-size: 0.8rem;
+        display: none;
+    }
+    
+    .navbar-toggler {
+        margin-left: auto;
+    }
+
+    .alert-warning {
+        font-size: 0.85rem;
+        padding: 0.8rem;
+    }
+    
+    .alert-warning br {
+        display: none;
+    }
+
+    .shabat-card {
+        margin: 1rem;
+    }
+    
+    .shabat-card h2 {
+        font-size: 1.5rem;
+    }
+    
+    .shabat-card .lead {
+        font-size: 1rem;
+    }
+
+    .simulation-menu {
+        position: fixed !important;
+        top: 60px !important;
+        right: 10px !important;
+        max-width: calc(100% - 20px);
+    }
+    
+    .simulation-gear {
+        font-size: 1.1rem;
+    }
 }
 
 /* Estilos para pantallas muy pequeñas (hasta 320px) */
@@ -280,5 +325,113 @@ body {
     .btn {
         padding: 0.3rem 0.6rem;
         font-size: 0.8rem;
+    }
+}
+
+#currentDate {
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.alert-warning {
+    background-color: #fff3cd;
+    border-color: #ffeeba;
+    color: #856404;
+    margin-bottom: 0;
+    border-radius: 0;
+    padding: 1rem;
+    font-size: 0.95rem;
+}
+
+.alert-warning strong {
+    color: #533f03;
+}
+
+.alert-warning .btn-close {
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Estilos para la tarjeta de Shabat */
+.shabat-card {
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: rgba(255, 255, 255, 0.95);
+    border: none;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.shabat-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.shabat-card h2 {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.shabat-card .lead {
+    color: #666;
+    font-style: italic;
+}
+
+/* Estilos para el botón de simulación y su menú */
+.simulation-gear {
+    font-size: 1.2rem;
+    transition: transform 0.3s ease;
+}
+
+.simulation-gear:hover {
+    transform: rotate(90deg);
+}
+
+.simulation-menu {
+    min-width: 250px;
+    border: none;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.simulation-menu .dropdown-header {
+    color: var(--primary-color);
+    font-weight: 600;
+    text-align: center;
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.simulation-menu .btn {
+    text-align: left;
+    padding: 0.5rem 1rem;
+    margin: 2px 0;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+.simulation-menu .btn:hover {
+    transform: translateX(5px);
+}
+
+.simulation-menu .dropdown-divider {
+    margin: 0.5rem 0;
+    border-color: #eee;
+}
+
+/* Ajustes responsivos para el menú de simulación */
+@media (max-width: 767px) {
+    .simulation-menu {
+        position: fixed !important;
+        top: 60px !important;
+        right: 10px !important;
+        max-width: calc(100% - 20px);
+    }
+    
+    .simulation-gear {
+        font-size: 1.1rem;
     }
 } 

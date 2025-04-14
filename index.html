@@ -14,9 +14,29 @@
             <a class="navbar-brand" href="#">
                 <i class="fas fa-piggy-bank"></i> Millata
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+            <div class="ms-auto d-flex align-items-center">
+                <span id="currentDate" class="text-white me-3"></span>
+                <div class="dropdown me-3">
+                    <button class="btn btn-link text-white simulation-gear" type="button" id="simulationMenu" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                    <div class="dropdown-menu simulation-menu p-3" aria-labelledby="simulationMenu">
+                        <h6 class="dropdown-header">Controles de Simulación</h6>
+                        <div class="d-grid gap-2">
+                            <button class="btn btn-sm btn-outline-primary" onclick="setSimulation('friday_before')">Viernes (16:00)</button>
+                            <button class="btn btn-sm btn-outline-primary" onclick="setSimulation('friday_sunset')">Viernes al Atardecer (18:00)</button>
+                            <button class="btn btn-sm btn-outline-primary" onclick="setSimulation('saturday')">Sábado</button>
+                            <button class="btn btn-sm btn-outline-primary" onclick="setSimulation('sunday_before_9')">Domingo antes de 9 AM</button>
+                            <button class="btn btn-sm btn-outline-primary" onclick="setSimulation('sunday_after_9')">Domingo después de 9 AM</button>
+                            <div class="dropdown-divider"></div>
+                            <button class="btn btn-sm btn-outline-secondary" onclick="setSimulation(null)">Volver a Hora Real</button>
+                        </div>
+                    </div>
+                </div>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
@@ -34,6 +54,17 @@
     </nav>
 
     <div class="container mt-5">
+        <!-- Mensaje de Shabat -->
+        <div id="shabatMessage" class="text-center" style="display: none;">
+            <div class="card shabat-card">
+                <div class="card-body">
+                    <img src="./assets/imagen/feliz_sabado.jpg" alt="Feliz Shabat" class="img-fluid shabat-image mb-4">
+                    <h2 class="mt-4">Shabat Shalom</h2>
+                    <p class="mt-3">Nuestros servicios estarán disponibles nuevamente el domingo a las 9:00 AM.</p>
+                </div>
+            </div>
+        </div>
+
         <!-- Login Form -->
         <div id="loginForm" class="card mx-auto" style="max-width: 400px;">
             <div class="card-header bg-primary text-white">

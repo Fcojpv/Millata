@@ -222,7 +222,234 @@ function updateAllUsersDashboard() {
     document.getElementById('averageBalance').textContent = userCount > 0 ? `$${Math.round(totalBalance / userCount).toLocaleString('es-CL')} CLP` : '$0 CLP';
 }
 
+// Función para formatear la fecha
+function formatDate(date) {
+    const options = { 
+        weekday: 'long', 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+    };
+    return date.toLocaleDateString('es-CL', options);
+}
+
+// Función para actualizar la fecha
+function updateDate() {
+    const currentDate = new Date();
+    document.getElementById('currentDate').textContent = formatDate(currentDate);
+}
+
+// Actualizar la fecha cada día a medianoche
+function scheduleDateUpdate() {
+    const now = new Date();
+    const midnight = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate() + 1,
+        0, 0, 0
+    );
+    const timeUntilMidnight = midnight - now;
+    
+    setTimeout(() => {
+        updateDate();
+        // Programar la próxima actualización
+        setInterval(updateDate, 24 * 60 * 60 * 1000);
+    }, timeUntilMidnight);
+}
+
+// Función para obtener la hora del atardecer
+async function getSunsetTime() {
+    const lat = -41.4717; // Latitud de Puerto Montt
+    const lng = -72.9369; // Longitud de Puerto Montt
+    const today = new Date().toISOString().split('T')[0];
+    
+    try {
+        const response = await fetch(`https://api.sunrise-sunset.org/json?lat=${lat}&lng=${lng}&date=${today}&formatted=0`);
+        const data = await response.json();
+        
+        if (data.status === 'OK') {
+            const sunsetTime = new Date(data.results.sunset);
+            return sunsetTime;
+        }
+    } catch (error) {
+        console.error('Error al obtener la hora del atardecer:', error);
+    }
+    return null;
+}
+
+// Función para mostrar la advertencia
+function showSunsetWarning() {
+    const warningDiv = document.createElement('div');
+    warningDiv.className = 'alert alert-warning alert-dismissible fade show';
+    warningDiv.innerHTML = `
+        <strong>¡Atención!</strong> Nuestra atención cerrará por Shabat desde el atardecer de hoy (${new Date().toLocaleTimeString('es-CL', {hour: '2-digit', minute:'2-digit'})}) hasta las 9:00 AM del domingo. 
+        <br>Recuerda revisar tu saldo antes del cierre. Shabat Shalom! ♥️.
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    `;
+    
+    // Insertar la advertencia después de la barra de navegación
+    document.querySelector('nav').after(warningDiv);
+}
+
+// Función para verificar si es viernes y está cerca del atardecer
+async function checkSunsetWarning() {
+    const today = new Date();
+    const dayOfWeek = today.getDay(); // 0 es domingo, 5 es viernes
+    
+    if (dayOfWeek === 5) { // Si es viernes
+        const sunsetTime = await getSunsetTime();
+        if (sunsetTime) {
+            const currentTime = new Date();
+            const timeUntilSunset = sunsetTime - currentTime;
+            
+            // Mostrar advertencia si faltan 2 horas o menos para el atardecer
+            if (timeUntilSunset > 0 && timeUntilSunset <= 2 * 60 * 60 * 1000) {
+                showSunsetWarning();
+            }
+        }
+    }
+}
+
+// Función para simular diferentes momentos
+function simulateTime(scenario) {
+    const now = new Date();
+    
+    switch(scenario) {
+        case 'friday_before':
+            // Simular viernes 2 horas antes del atardecer (16:00)
+            now.setHours(16, 0, 0);
+            now.setDate(now.getDate() + ((5 + 7 - now.getDay()) % 7)); // Próximo viernes
+            break;
+        case 'friday_sunset':
+            // Simular viernes al atardecer (18:00)
+            now.setHours(18, 0, 0);
+            now.setDate(now.getDate() + ((5 + 7 - now.getDay()) % 7));
+            break;
+        case 'saturday':
+            // Simular sábado al mediodía
+            now.setHours(12, 0, 0);
+            now.setDate(now.getDate() + ((6 + 7 - now.getDay()) % 7));
+            break;
+        case 'sunday_before_9':
+            // Simular domingo antes de las 9 AM
+            now.setHours(8, 0, 0);
+            now.setDate(now.getDate() + ((0 + 7 - now.getDay()) % 7));
+            break;
+        case 'sunday_after_9':
+            // Simular domingo después de las 9 AM
+            now.setHours(10, 0, 0);
+            now.setDate(now.getDate() + ((0 + 7 - now.getDay()) % 7));
+            break;
+        default:
+            return new Date(); // Hora actual
+    }
+    return now;
+}
+
+// Modificar la función isShabbatTime para usar tiempo simulado
+let simulatedScenario = null; // Variable global para el escenario simulado
+
+function isShabbatTime() {
+    const now = simulatedScenario ? simulateTime(simulatedScenario) : new Date();
+    const day = now.getDay();
+    const hour = now.getHours();
+    const minutes = now.getMinutes();
+    
+    const currentTimeInMinutes = hour * 60 + minutes;
+
+    if (day === 5) { // Viernes
+        return currentTimeInMinutes >= (18 * 60); // Después de las 18:00
+    } else if (day === 6) { // Sábado
+        return true;
+    } else if (day === 0) { // Domingo
+        return currentTimeInMinutes < (9 * 60); // Antes de las 9:00
+    }
+
+    return false;
+}
+
+// Función para controlar la simulación
+function setSimulation(scenario) {
+    simulatedScenario = scenario;
+    updateShabbatDisplay();
+    checkSunsetWarning();
+    
+    // Actualizar el estado visual del botón de engranaje
+    const gear = document.querySelector('.simulation-gear i');
+    if (scenario) {
+        gear.classList.add('text-warning');
+    } else {
+        gear.classList.remove('text-warning');
+    }
+}
+
+// Función para mostrar u ocultar elementos según el horario
+function updateShabbatDisplay() {
+    const isShabbat = isShabbatTime();
+    const mainElements = [
+        loginForm,
+        registerForm,
+        dashboard,
+        allUsersDashboard,
+        document.querySelector('.navbar-nav')
+    ];
+    const shabatMessage = document.getElementById('shabatMessage');
+
+    if (isShabbat) {
+        // Ocultar elementos principales
+        mainElements.forEach(element => {
+            if (element) element.style.display = 'none';
+        });
+        // Mostrar mensaje de Shabat
+        shabatMessage.style.display = 'block';
+    } else {
+        // Mostrar elementos principales (solo si no hay un usuario logueado)
+        if (!currentAccount) {
+            loginForm.style.display = 'block';
+        }
+        // Ocultar mensaje de Shabat
+        shabatMessage.style.display = 'none';
+    }
+}
+
+// Función para programar la próxima actualización
+function scheduleNextUpdate() {
+    const now = new Date();
+    let nextUpdate;
+
+    if (isShabbatTime()) {
+        // Si estamos en Shabat, la próxima actualización será el domingo a las 9:00 AM
+        if (now.getDay() === 0 && now.getHours() < 9) {
+            nextUpdate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 9, 0, 0);
+        } else {
+            nextUpdate = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 9, 0, 0);
+        }
+    } else {
+        // Si no estamos en Shabat, la próxima actualización será al atardecer del viernes
+        const daysUntilFriday = (5 + 7 - now.getDay()) % 7;
+        nextUpdate = new Date(now.getFullYear(), now.getMonth(), now.getDate() + daysUntilFriday, 18, 0, 0);
+    }
+
+    const timeUntilUpdate = nextUpdate - now;
+    setTimeout(() => {
+        updateShabbatDisplay();
+        scheduleNextUpdate();
+    }, timeUntilUpdate);
+}
+
 // Inicialización
 if (localStorage.getItem('bankAccounts') === null) {
     localStorage.setItem('bankAccounts', JSON.stringify({}));
-} 
+}
+
+// Mostrar la fecha actual
+updateDate();
+scheduleDateUpdate();
+
+// Verificar la advertencia del atardecer y el estado de Shabat
+checkSunsetWarning();
+updateShabbatDisplay();
+scheduleNextUpdate();
+
+// Verificar cada hora la advertencia del atardecer
+setInterval(checkSunsetWarning, 60 * 60 * 1000); 
