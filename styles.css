@@ -434,4 +434,139 @@ body {
     .simulation-gear {
         font-size: 1.1rem;
     }
+}
+
+/* Estilos para las estadísticas del dashboard */
+#allUsersDashboard .display-6 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: 0;
+}
+
+#allUsersDashboard .card-title {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 0.5rem;
+}
+
+#allUsersDashboard .card {
+    transition: transform 0.3s ease;
+}
+
+#allUsersDashboard .card:hover {
+    transform: translateY(-5px);
+}
+
+/* Ajustes responsivos para las estadísticas */
+@media (max-width: 1200px) {
+    #allUsersDashboard .display-6 {
+        font-size: 1.6rem;
+    }
+}
+
+@media (max-width: 992px) {
+    #allUsersDashboard .display-6 {
+        font-size: 1.4rem;
+    }
+    
+    #allUsersDashboard .card-title {
+        font-size: 0.85rem;
+    }
+}
+
+@media (max-width: 768px) {
+    #allUsersDashboard .display-6 {
+        font-size: 1.3rem;
+    }
+    
+    #allUsersDashboard .card-body {
+        padding: 0.75rem;
+    }
+    
+    #allUsersDashboard .row > div {
+        margin-bottom: 1rem;
+    }
+}
+
+@media (max-width: 576px) {
+    #allUsersDashboard .display-6 {
+        font-size: 1.2rem;
+    }
+    
+    #allUsersDashboard .card-title {
+        font-size: 0.8rem;
+    }
+    
+    #allUsersDashboard .card-body {
+        padding: 0.5rem;
+    }
+}
+
+/* Estilos para las notas */
+.notes-container {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.note-item {
+    background-color: #fff;
+    border-left: 4px solid var(--primary-color);
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.note-item:last-child {
+    margin-bottom: 0;
+}
+
+.note-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.5rem;
+}
+
+.note-date {
+    font-size: 0.8rem;
+    color: #666;
+}
+
+.note-content {
+    color: #333;
+    font-size: 0.9rem;
+    white-space: pre-wrap;
+}
+
+.note-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.note-actions button {
+    padding: 0.2rem 0.5rem;
+    font-size: 0.8rem;
+}
+
+/* Modal de notas */
+.note-textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+/* Ajustes responsivos para las notas */
+@media (max-width: 768px) {
+    .notes-container {
+        max-height: 250px;
+    }
+
+    .note-item {
+        padding: 0.75rem;
+    }
+
+    .note-content {
+        font-size: 0.85rem;
+    }
 } 
